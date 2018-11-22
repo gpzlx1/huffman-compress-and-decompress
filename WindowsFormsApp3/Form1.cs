@@ -21,7 +21,7 @@ namespace WindowsFormsApp3
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = false;
-            fileDialog.Title = "请选择文件";
+            fileDialog.Title = "请选择压缩文件";
             fileDialog.Filter = "所有文件(*.*)|*.*";
             huff.HUFFCOMPRESS test = new huff.HUFFCOMPRESS();
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -30,7 +30,7 @@ namespace WindowsFormsApp3
                 foreach (string file in names)
                 {
 
-                    MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     test.CreateCompressedFile(file);
                     MessageBox.Show("已完成压缩");
               
@@ -42,7 +42,7 @@ namespace WindowsFormsApp3
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = false;
-            fileDialog.Title = "请选择文件";
+            fileDialog.Title = "请选择解压文件";
             fileDialog.Filter = "所有文件(*.*)|*.*";
             dehuff.HUFFDECOMPRESS test2 = new dehuff.HUFFDECOMPRESS();
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -50,10 +50,17 @@ namespace WindowsFormsApp3
                 string[] names = fileDialog.FileNames;
                 foreach (string file in names)
                 {
-
-                    MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    test2.decodeFile(file);
-                    MessageBox.Show("已完成解压");
+                    int index = file.LastIndexOf(".");
+                    if (file.Substring(index) != ".huff")
+                    {
+                        MessageBox.Show("文件格式错误");
+                    }
+                    else
+                    {
+                        //MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        test2.decodeFile(file);
+                        MessageBox.Show("已完成解压");
+                    }
 
                 }
             }
