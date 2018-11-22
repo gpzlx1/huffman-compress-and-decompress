@@ -11,9 +11,10 @@ namespace huff
     {
         public int validCount = 0;
 
+        public Dictionary<byte, int> idDic = new Dictionary<byte, int>();
+
         public struct HUFF
         {
-            public int mark;
             public byte content;
             public int weight;
             public int parent;
@@ -64,38 +65,24 @@ namespace huff
 
         public void scanHuff(byte[] contents)
         {
+            int i;
+            validCount = 0;
             foreach (byte content in contents)
             {
-                input(content);
-            }
-        }
-
-        public bool input(byte content)
-        {
-            int i;
-            for (i = 0; i <= validCount; i++)
-            {
-
-                if (huffTree[i].mark == 1)
+                try
                 {
-                    if (huffTree[i].content == content)
-                    {
-                        huffTree[i].weight++;
-                        break;
-                    }
-                }
-                else
-                {
-                    huffTree[i].mark = 1;
-                    huffTree[i].content = content;
+                    
+                    i = idDic[content];
                     huffTree[i].weight++;
-                    validCount++;
-                    break;
+                }
+                catch
+                {
+                    huffTree[validCount].weight = 1;
+                    huffTree[validCount].content = content;
+                    idDic.Add(content, validCount++);
+                    
                 }
             }
-            if (i > validCount)
-                return false;
-            return true;
         }
 
         public bool createHuffTree()
@@ -204,7 +191,7 @@ namespace huff
             foreach (byte content in contents)
             {
                 temp = 0;
-                KK = findExactEncode(content);
+                KK = idDic[content];
                 codeLength = huffcode[KK].stringLength;
                 offset = mark - codeLength;
                 if (offset > 0)
@@ -284,18 +271,6 @@ namespace huff
                 afterCompressed.Insert(2, code.content);
             }
             return afterCompressed.ToArray();
-        }
-
-        public int findExactEncode(byte content)
-        {
-            int end = (validCount + 1) / 2;
-            for (int i = 0; i < end; i++)
-            {
-                if (huffcode[i].content == content)
-                    return i;
-            }
-            return -1;
-
         }
 
         public void writeFile(string address, byte[] contents)
