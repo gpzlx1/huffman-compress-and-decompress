@@ -53,6 +53,7 @@ namespace WindowsFormsApp3
 
                     MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     test.decodeFile(file);
+                    MessageBox.Show("已完成解压");
 
                 }
             }
