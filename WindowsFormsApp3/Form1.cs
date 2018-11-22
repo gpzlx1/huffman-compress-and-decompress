@@ -44,7 +44,7 @@ namespace WindowsFormsApp3
             fileDialog.Multiselect = false;
             fileDialog.Title = "请选择文件";
             fileDialog.Filter = "所有文件(*.*)|*.*";
-            dehuff.HUFFDECOMPRESS test = new dehuff.HUFFDECOMPRESS();
+            dehuff.HUFFDECOMPRESS test2 = new dehuff.HUFFDECOMPRESS();
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string[] names = fileDialog.FileNames;
@@ -52,7 +52,7 @@ namespace WindowsFormsApp3
                 {
 
                     MessageBox.Show("已选择文件:" + file, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    test.decodeFile(file);
+                    test2.decodeFile(file);
                     MessageBox.Show("已完成解压");
 
                 }

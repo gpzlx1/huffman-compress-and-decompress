@@ -21,6 +21,7 @@ namespace huff
             public int rchild;
         }
 
+
         public struct HUFFMANCODE
         {
             public byte content;
@@ -160,6 +161,9 @@ namespace huff
                         huffcode[i].huffcodeString = "1" + huffcode[i].huffcodeString;
                 }
                 huffcode[i].stringLength = Convert.ToByte(huffcode[i].huffcodeString.Length);
+
+                //Console.WriteLine(Convert.ToInt32(huffcode[i].huffcodeString, 2));
+
             }
             if (i == codeNumber + 1)
                 return true;
@@ -242,6 +246,7 @@ namespace huff
                         codePart = huffcode[KK].huffcodeString.Substring(T, 8);
                         input = Convert.ToByte(codePart, 2);
                         afterCompressed.Add(input);
+                        input = 0;
                         codeLength = codeLength - 8;
                         T = T + 8;
                     }
@@ -305,3 +310,6 @@ namespace huff
     }
 
 }
+
+
+
