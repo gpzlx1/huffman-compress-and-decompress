@@ -67,7 +67,7 @@ namespace dehuff
 
             Dictionary<string, byte> dic = new Dictionary<string, byte>();
             dic = createDictionary(huffcode);
-
+            dic.AsParallel();
             ///////////////////////////////////////
             ///开始解压
             string currentString = null;
@@ -86,15 +86,12 @@ namespace dehuff
                 mark--;
                 if (currentString.Length >= minCodeStringLength)
                 {
-                    try
+                    if (dic.TryGetValue(currentString, out currentByte))
                     {
-                        currentByte = dic[currentString];
                         afterDecode.Add(currentByte);
                         currentString = null;
                     }
-                    catch
-                    {
-                    }
+
                 }
                 if (mark == 0)
                 {

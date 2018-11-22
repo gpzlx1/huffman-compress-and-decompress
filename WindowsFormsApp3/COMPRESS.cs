@@ -67,6 +67,7 @@ namespace huff
         {
             int i;
             validCount = 0;
+            idDic.AsParallel();
             foreach (byte content in contents)
             {
                 try
@@ -188,6 +189,7 @@ namespace huff
             int mark = 8;
             string codePart;
             string debug;
+            idDic.AsParallel();
             foreach (byte content in contents)
             {
                 temp = 0;
