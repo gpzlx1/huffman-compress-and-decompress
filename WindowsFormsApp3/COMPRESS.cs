@@ -181,10 +181,32 @@ namespace huff
         public byte[] beginCompress(byte[] contents)
         {
             List<byte> afterCompressed = new List<byte>();
-            byte input = 0;
-            byte temp;
-            int KK;
+
+            byte number = Convert.ToByte((validCount + 1) / 2 - 1);
             int codeLength;
+            byte temp;
+
+            afterCompressed.Add(number);
+            foreach (HUFFMANCODE code in huffcode)
+            {
+                afterCompressed.Add(code.content);
+                afterCompressed.Add(code.stringLength);
+                
+
+                codeLength = code.huffcodeString.Length;
+                byte[] stringCode = System.Text.Encoding.Default.GetBytes(code.huffcodeString);
+                foreach(byte T in stringCode)
+                {
+                    afterCompressed.Add(T);
+                }
+                
+            }
+
+            
+            byte input = 0;
+
+            int KK;
+            
             int offset;
             int mark = 8;
             string codePart;
@@ -257,21 +279,8 @@ namespace huff
             }
 
             afterCompressed.Add(input);
-            byte number = Convert.ToByte((validCount + 1) / 2 - 1);
-            afterCompressed.Insert(0, Convert.ToByte(mark));
-            afterCompressed.Insert(0, number);
-            foreach (HUFFMANCODE code in huffcode)
-            {
-                codeLength = code.huffcodeString.Length;
-                byte[] stringCode = System.Text.Encoding.Default.GetBytes(code.huffcodeString);
-                for (int i = stringCode.Length - 1; i >= 0; i--)
-                {
-                    temp = stringCode[i];
-                    afterCompressed.Insert(2, temp);
-                }
-                afterCompressed.Insert(2, code.stringLength);
-                afterCompressed.Insert(2, code.content);
-            }
+            afterCompressed.Insert(1, Convert.ToByte(mark));
+            
             return afterCompressed.ToArray();
         }
 
